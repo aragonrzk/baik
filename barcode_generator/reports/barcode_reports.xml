@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="action_report_barcodegenerator" model="ir.actions.report">
+            <field name="name">Print Codes</field>
+            <field name="model">barcode.generator</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">barcode_generator.report_barcodegenerator</field>
+            <field name="report_file">barcode_generator.report_barcodegenerator</field>
+            <field name="binding_model_id" ref="model_barcode_generator"/>
+            <field name="binding_type">report</field>
+            <field name="print_report_name">'Codes - %s' % object.name</field>
+        </record>
+    </data>
+</odoo>

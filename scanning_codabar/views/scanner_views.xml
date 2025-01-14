@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Action untuk form dan tree view -->
+    <record id="action_scanner" model="ir.actions.act_window">
+        <field name="name">Scanner</field>
+        <field name="res_model">scanner.scanner</field>
+        <!-- <field name="view_mode">tree,form</field> -->
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+    <!-- Menu item -->
+    <menuitem id="menu_scanner"
+              name="Scanning Codabar"
+              action="action_scanner"
+              parent="purchase.menu_procurement_management"
+              sequence="55" />
+    <!-- Tampilan Tree View -->
+    <record id="view_scanner_tree" model="ir.ui.view">
+        <field name="name">scanner.tree</field>
+        <field name="model">scanner.scanner</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="barcode"/>
+                <field name="price"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <!-- Tampilan Form View -->    
+    <record id="view_scanner_form" model="ir.ui.view">
+        <field name="name">scanner.form</field>
+        <field name="model">scanner.scanner</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="barcode"/>
+                        <field name="price" readonly="1"/>
+                        <field name="name" readonly="1"/>
+                        <field name="total_amount" readonly="1"/>
+                    </group>
+                        <notebook>
+                            <page string="Scanned Items">
+                                <field name="scanner_line_ids">
+                                    <tree editable="bottom" create="false">
+                                        <field name="barcode"/>
+                                        <field name="name"/>
+                                        <field name="price" sum="Total"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                         <!-- Tombol Print -->
+                        <button name="print_scanner_lines" 
+                            string="Print" 
+                            type="object" 
+                            class="btn btn-primary"/>                        
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

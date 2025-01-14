@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Paper Format -->
+        <record id="paperformat_barcode" model="report.paperformat">
+            <field name="name">Barcode Report Format</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">10</field>
+            <field name="margin_right">10</field>
+            <field name="header_line" eval="False"/>
+        </record>
+
+        <!-- Report Action -->
+        <record id="action_report_barcodegenerator" model="ir.actions.report">
+            <field name="name">Barcode/QR Code Report</field>
+            <field name="model">barcode.generator</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">barcode_qr_generator.report_barcodegenerator_document</field>
+            <field name="paperformat_id" ref="paperformat_barcode"/>
+            <field name="binding_model_id" ref="model_barcode_generator"/>
+        </record>
+
+        <!-- Template -->
+        <template id="report_barcodegeneratordocument">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <t t-foreach="doc.generated_code_ids" t-as="line">
+                        <div>
+                            <img t-if="line.barcode_data" t-att-src="'data:image/png;base64,' + line.barcode_data"/>
+                            <img t-if="line.qrcode_data" t-att-src="'data:image/png;base64,' + line.qrcode_data"/>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </template>
+
+
+        
+
+    </data>
+</odoo>

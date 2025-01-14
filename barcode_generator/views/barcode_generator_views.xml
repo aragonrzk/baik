@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_barcode_generator_form" model="ir.ui.view">
+        <field name="name">barcode.generator.form</field>
+        <field name="model">barcode.generator</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <!-- <button name="print_report" string="Print" type="object" class="oe_highlight"/> -->
+                    <button name="print_report" string="Print" type="object" class="btn btn-primary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name" id='fname' placeholder='Input Nama'/>
+                        <field name="date_from" id='fdf' placeholder='Input Tanggal Mulai'/>
+                        <field name="date_to" id='fdt' placeholder='Input Tanggal Akhir'/>
+                        <field name="barcode_type" id='fbt' placeholder='Input Tipe Code' />
+                        <field name="price" id='fpr' placeholder='Input Harga'/>
+                    </group>
+                    <notebook>
+                        <page string="Barcode/QR" name="generated_codes">
+                            <field name="generated_code_ids" readonly="1">
+                                <tree>
+                                    <field name="date"/>
+                                    <field name="barcode_data" widget="image" 
+                                           attrs="{'invisible': [('parent.barcode_type', '=', 'qrcode')]}"/>
+                                    <field name="qrcode_data" widget="image" 
+                                           attrs="{'invisible': [('parent.barcode_type', '=', 'barcode')]}"/>
+                                    <field name="price"/>
+                                    <field name="name"/>
+                                    <field name="generate_code"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_barcode_generator_tree" model="ir.ui.view">
+        <field name="name">barcode.generator.tree</field>
+        <field name="model">barcode.generator</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="barcode_type"/>
+                <field name="price"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_barcode_generator" model="ir.actions.act_window">
+        <field name="name">Barcode Generator</field>
+        <field name="res_model">barcode.generator</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_barcode_generator"
+              name="Barcode Generator"
+              action="action_barcode_generator"
+              parent="purchase.menu_procurement_management"
+              sequence="50"/>
+</odoo>

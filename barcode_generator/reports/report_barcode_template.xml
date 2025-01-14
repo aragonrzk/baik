@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Template untuk single document -->
+        <template id="report_barcodegenerator_document">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center mb-4">
+                            Generated Codes for <t t-esc="doc.name"/>
+                        </h2>
+                        <div class="row mb-4">
+                            <div class="col-6">
+                                <strong>Date Range:</strong>
+                                <span t-field="doc.date_from"/> - <span t-field="doc.date_to"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Code Type:</strong>
+                                <span t-field="doc.barcode_type"/>
+                            </div>
+                        </div>
+                        
+                        <!-- Grid layout for codes -->
+                        <div class="row">
+                            <t t-foreach="doc.generated_code_ids" t-as="line">
+                                <div class="col-6 mb-4">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <p class="mb-2">
+                                                <strong>Date: </strong>
+                                                <span t-field="line.date"/>
+                                            </p>
+                                            <!-- Show Barcode if applicable -->
+                                            <t t-if="doc.barcode_type in ['barcode', 'both'] and line.barcode_data">
+                                                <div class="mb-3">
+                                                    <strong>Barcode:</strong><br/>
+                                                    <img t-att-src="'data:image/png;base64,' + line.barcode_data.decode('utf-8')" style="width: 150px; height: 75px"/>
+                                                </div>
+                                            </t>
+                                            <!-- Show QR Code if applicable -->
+                                            <t t-if="doc.barcode_type in ['qrcode', 'both'] and line.qrcode_data">
+                                                <div class="mb-3">
+                                                    <strong>QR Code:</strong><br/>
+                                                    <img t-att-src="'data:image/png;base64,' + line.qrcode_data.decode('utf-8')" style="max-width: 80px;"/>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <!-- Main report template -->
+        <template id="report_barcodegenerator">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="barcode_generator.report_barcodegenerator_document"/>
+            </t>
+        </template>
+    </data>
+</odoo>
