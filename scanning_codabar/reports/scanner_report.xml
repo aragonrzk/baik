@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+
+    <!-- paper format  -->
+
+    <record id="paperformat_no_margin" model="report.paperformat">
+        <field name="name">No Margin</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">10</field>
+        <field name="margin_bottom">0</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">90</field>
+    </record>
+
     <!-- Action Report -->
     <record id="action_report_scanner_lines" model="ir.actions.report">
         <field name="name">Scanned Items</field>
@@ -7,7 +26,9 @@
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">scanning_codabar.report_scanner_lines</field>
         <field name="report_file">scanning_codabar.report_scanner_lines</field>
+        <field name="paperformat_id" ref="paperformat_no_margin"/>
         <field name="binding_type">report</field>
+        <field name="print_report_name">'Scanner Report - %s' % object.name</field>
     </record>
 
    
@@ -46,71 +67,37 @@
         </t>
     </template>  -->
 
-
-
     <template id="report_scanner_lines">
         <t t-call="web.html_container">
-            <div class="custom-report" style="position: relative; padding: 20px;">
-                <!-- Header Section -->
-                <div class="header" style="text-align: center; margin-bottom: 20px;">
-                    <h2>List Report</h2>
-                </div>
-                
-                <!-- Table Section -->
-                <div class="table-container" 
-                    style="position: relative; margin: 20px auto; top: 5px; width: 100%;">
-                    <table class="table table-bordered" 
-                        style="width: 100%; border-collapse: collapse; border: 1px solid black;">
-                        <thead style="background-color: #d9edf7; font-weight: bold; text-align: center;">
+            <div class="article" style="margin: 0; padding: 0;">
+                <table style="width: 100%; margin: 0; padding: 0; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th style="border: 1px solid black; padding: 8px;">Barcode</th>
+                            <th style="border: 1px solid black; padding: 8px;">Name</th>
+                            <th style="border: 1px solid black; padding: 8px;">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="docs" t-as="line">
                             <tr>
-                                <th style="border: 1px solid black; padding: 10px; font-size: 14px;">Barcode</th>
-                                <th style="border: 1px solid black; padding: 10px; font-size: 14px;">Name</th>
-                                <th style="border: 1px solid black; padding: 10px; font-size: 14px;">Price</th>
+                                <td style="border: 1px solid black; padding: 8px;"><span t-field="line.barcode"/></td>
+                                <td style="border: 1px solid black; padding: 8px;"><span t-field="line.name"/></td>
+                                <td style="border: 1px solid black; padding: 8px;"><span t-field="line.price"/></td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <t t-foreach="docs" t-as="line">
-                                <tr>
-                                    <td style="border: 1px solid black; padding: 8px; font-size: 12px; text-align: center;">
-                                        <span t-field="line.barcode"/>
-                                    </td>
-                                    <td style="border: 1px solid black; padding: 8px; font-size: 12px;">
-                                        <span t-field="line.name"/>
-                                    </td>
-                                    <td style="border: 1px solid black; padding: 8px; font-size: 12px; text-align: right;">
-                                        <span t-field="line.price"/>
-                                    </td>
-                                </tr>
-                            </t>
-                            <!-- Total Row -->
-                            <tr style="background-color: #f2f2f2;">
-                                <td colspan="2" style="text-align: right; font-weight: bold; padding: 8px; border: 1px solid black;">
-                                    Total:
-                                </td>
-                                <td style="font-weight: bold; padding: 8px; text-align: right; border: 1px solid black;">
-                                    <t t-esc="sum(docs.mapped('price'))"/>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <!-- Footer Section -->
-                <div class="footer" 
-                    style="position: relative; text-align: center; margin-top: 40px; font-size: 12px; color: #666;">
-                    <p>Generated by Odoo Report</p>
-                </div>
+                        </t>
+                        <tr>
+                            <td colspan="2" style="border: 1px solid black; padding: 8px; text-align: right;"><strong>Total:</strong></td>
+                            <td style="border: 1px solid black; padding: 8px;"><strong><t t-esc="sum(docs.mapped('price'))"/></strong></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </t>
     </template>
 
 
 
-   
     
-
-
-
-
 
 </odoo>

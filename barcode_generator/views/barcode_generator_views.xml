@@ -52,6 +52,8 @@
         </field>
     </record>
 
+ 
+
     <record id="action_barcode_generator" model="ir.actions.act_window">
         <field name="name">Barcode Generator</field>
         <field name="res_model">barcode.generator</field>

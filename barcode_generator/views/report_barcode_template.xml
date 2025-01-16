@@ -1,4 +1,5 @@
 <odoo>
+
     <template id="report_barcodegenerator_document">
         <t t-call="web.external_layout">
             <div class="page" style="margin-top: 0; padding-top: 0;">
