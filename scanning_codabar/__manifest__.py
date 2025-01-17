@@ -10,6 +10,7 @@
         'views/scanner_views.xml',
         'security/ir.model.access.csv',
         'reports/scanner_report.xml',
+        # 'views/activity_log_views.xml',
     ],
     'installable': True,
     'application': False,

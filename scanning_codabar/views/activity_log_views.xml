@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_scanner_activity_log_tree" model="ir.ui.view">
+        <field name="name">scanner.activity.log.tree</field>
+        <field name="model">scanner.activity.log</field>
+        <field name="arch" type="xml">
+            <tree string="Activity Logs" create="false">
+                <field name="create_date"/>
+                <field name="user_id"/>
+                <field name="action"/>
+                <field name="name"/>
+                <field name="barcode"/>
+                <field name="item_name"/>
+                <field name="price"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_scanner_activity_log" model="ir.actions.act_window">
+        <field name="name">Scanner Activity Logs</field>
+        <field name="res_model">scanner.activity.log</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <menuitem id="menu_scanner_activity_log"
+              name="Activity Logs"
+              parent="scanning_codabar.scanner_menu_root"
+              action="action_scanner_activity_log"
+              sequence="20"/>
+</odoo>

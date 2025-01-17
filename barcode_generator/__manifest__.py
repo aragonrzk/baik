@@ -1,6 +1,6 @@
-# source venv/bin/activate
-# mainkan di localhost:807
-# python3.12 odoo-bin -c debian/odoo.conf
+# source venv/bin/activate  -- aktifkan venv
+# mainkan di localhost:807  -- untuk menjalankan odoo
+# python3.12 odoo-bin -c debian/odoo.conf --start odoo 17
 # ./odoo-bin -c debian/odoo.conf -d odoo_17 -u modul_custom -- untuk updatenya modul nya
 # python3.12 odoo-bin -c debian/odoo.conf --log-level=debug --log-handler=*:DEBUG --dev=all
 # tail -f /var/log/odoo/odoo.log

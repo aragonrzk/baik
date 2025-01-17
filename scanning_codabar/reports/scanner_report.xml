@@ -10,7 +10,7 @@
         <field name="page_height">0</field>
         <field name="page_width">0</field>
         <field name="orientation">Portrait</field>
-        <field name="margin_top">10</field>
+        <field name="margin_top">1</field>
         <field name="margin_bottom">0</field>
         <field name="margin_left">0</field>
         <field name="margin_right">0</field>
@@ -66,11 +66,55 @@
             </t>
         </t>
     </template>  -->
+    
 
     <template id="report_scanner_lines">
         <t t-call="web.html_container">
             <div class="article" style="margin: 0; padding: 0;">
-                <table style="width: 100%; margin: 0; padding: 0; border-collapse: collapse;">
+                <table style="width: 30%; margin: 0; padding: 0; border-collapse: collapse;">
+                    <thead>
+                        <tr>
+                            <th style="border: 1px solid black; padding: 5px;">Barcode</th>
+                            <th style="border: 1px solid black; padding: 5px;">Name</th>
+                            <th style="border: 1px solid black; padding: 5px;">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="docs" t-as="line">
+                            <tr>
+                                <td style="border: 1px solid black; padding: 5px;"><span t-field="line.barcode"/></td>
+                                <td style="border: 1px solid black; padding: 5px;"><span t-field="line.name"/></td>
+                                <td style="border: 1px solid black; padding: 5px;"><span t-field="line.price"/></td>
+                            </tr>
+                        </t>
+                        <tr>
+                            <td colspan="2" style="border: 1px solid black; padding: 8px; text-align: right;"><strong>Total Items:</strong></td>
+                            <td style="border: 1px solid black; padding: 5px;"><strong>
+                            <!-- <t t-esc="len(docs)"/> -->
+                             <t t-esc="sum([int(barcode.split('(')[-1].split(')')[0]) for barcode in docs.mapped('barcode') if '(' in barcode and ')' in barcode])"/>
+                            </strong></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="border: 1px solid black; padding: 5px; text-align: right;"><strong>Total Price:</strong></td>
+                            <td style="border: 1px solid black; padding: 5px;"><strong><t t-esc="sum(docs.mapped('price'))"/></strong></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="border: 0px solid black; padding: 5px; text-align: center;">Terimakasih 11 tahun</td>
+                            
+                        </tr>
+                        
+                    </tbody>
+                </table>
+    
+
+            </div>
+        </t>
+    </template>
+
+    <!-- <template id="report_scanner_lines">
+        <t t-call="web.html_container">
+            <div class="article" style="margin: 0; padding: 0;">
+                <table style="width: 50%; margin: 0; padding: 0; border-collapse: collapse;">
                     <thead>
                         <tr>
                             <th style="border: 1px solid black; padding: 8px;">Barcode</th>
@@ -79,25 +123,42 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <t t-foreach="docs" t-as="line">
+                        <t t-foreach="docs.get_grouped_data(session_id=session_id).items()" t-as="group">
                             <tr>
-                                <td style="border: 1px solid black; padding: 8px;"><span t-field="line.barcode"/></td>
-                                <td style="border: 1px solid black; padding: 8px;"><span t-field="line.name"/></td>
-                                <td style="border: 1px solid black; padding: 8px;"><span t-field="line.price"/></td>
+                                <td style="border: 1px solid black; padding: 8px;">
+                                    <span t-esc="group[0]"/> 
+                                    <span t-esc="('(' + str(group[1]['qty']) + ')')"/>
+                                </td>
+                                <td style="border: 1px solid black; padding: 8px;">
+                                    <span t-esc="group[1]['name']"/>
+                                </td>
+                                <td style="border: 1px solid black; padding: 8px;">
+                                    <span t-esc="group[1]['total_price']"/>
+                                </td>
                             </tr>
                         </t>
+
+                        
                         <tr>
-                            <td colspan="2" style="border: 1px solid black; padding: 8px; text-align: right;"><strong>Total:</strong></td>
-                            <td style="border: 1px solid black; padding: 8px;"><strong><t t-esc="sum(docs.mapped('price'))"/></strong></td>
+                            <td colspan="2" style="border: 1px solid black; padding: 8px; text-align: right;">
+                                <strong>Total Price:</strong>
+                            </td>
+                            <td style="border: 1px solid black; padding: 8px;">
+                                <strong>
+                                    <t t-esc="sum(group[1]['total_price'] for group in docs.get_grouped_data(session_id=session_id).items())"/>
+                                </strong>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </t>
-    </template>
+    </template> -->
 
 
 
-    
+
+   
+  
 
 </odoo>

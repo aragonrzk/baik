@@ -38,6 +38,11 @@
                         <field name="price" readonly="1"/>
                         <field name="name" readonly="1"/>
                         <field name="total_amount" readonly="1"/>
+                              <!-- Tombol Print -->
+                        <button name="print_scanner_lines" 
+                            string="Print" 
+                            type="object" 
+                            class="btn btn-primary"/>    
                     </group>
                         <notebook>
                             <page string="Scanned Items">
@@ -45,17 +50,15 @@
                                     <tree editable="bottom" create="false">
                                         <field name="barcode"/>
                                         <field name="name"/>
+                                        <!-- <field name="qty"/>  -->
                                         <field name="price" sum="Total"/>
                                     </tree>
                                 </field>
                             </page>
                         </notebook>
-                         <!-- Tombol Print -->
-                        <button name="print_scanner_lines" 
-                            string="Print" 
-                            type="object" 
-                            class="btn btn-primary"/>                        
+                                     
                 </sheet>
+                  
             </form>
         </field>
     </record>
